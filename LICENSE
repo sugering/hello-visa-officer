@@ -19,19 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-关于素材 / About the assets
-----------------------------
-
-仓库里的美术素材（签证官立绘、背景、材料道具图、UI 元素）是用 Google Gemini
-生成的占位素材，随本仓库一并按 MIT 授权提供，可自由使用、修改、再分发。
-它们都是虚构内容：没有真实人物、真实机构标识或真实证件模板。使用前请自行确认
-符合你所处地区的法律规定与所用生成服务的条款。
-
-仓库不包含任何字体文件。界面通过操作系统已安装的中文字体渲染
-（Windows 微软雅黑 / macOS 苹方 / Linux Noto Sans CJK），这些字体各有自己的授权，
-请勿直接把系统字体打进你的发行包。
-
-第三方依赖：运行只需要 Python 标准库中的 tkinter 与 Pillow（MIT-CL 类许可）。
