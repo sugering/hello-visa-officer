@@ -1,0 +1,31 @@
+{
+  "id": "interview_01_conference",
+  "title": "面试 01 · 行业会议",
+  "brief": "你要用一份会议邀请函和一份『整理过』的流水，说服签证官你只是去开三天会。",
+  "round_limit": 8,
+  "suspicion_limit": 100,
+  "starting_suspicion": 5,
+  "starting_materials": [
+    "passport",
+    "invitation",
+    "bank_statement",
+    "employment",
+    "hotel_booking"
+  ],
+  "required_categories": [
+    "identity",
+    "funds",
+    "purpose"
+  ],
+  "category_weights": {
+    "identity": 0.25,
+    "funds": 0.35,
+    "purpose": 0.4
+  },
+  "min_credibility_for_coverage": 50,
+  "probe_formula": "pressure = 30 + suspicion * 0.6；robustness < pressure 即被击穿",
+  "verdict": {
+    "pass_threshold": 55,
+    "review_threshold": 40
+  }
+}

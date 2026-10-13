@@ -1,0 +1,118 @@
+{
+  "_comment": "材料表。credibility=表面可信度（终局评分），robustness=抗追问强度（低于追问压力就崩），facts=材料所载事实（签证官读数后会与玩家陈述做一致性比对）。",
+  "contradictions": [
+    [
+      "purpose:conference",
+      "purpose:tourism"
+    ],
+    [
+      "purpose:conference",
+      "purpose:visiting_family"
+    ],
+    [
+      "funds:self_saved",
+      "funds:company"
+    ],
+    [
+      "stay:5days",
+      "stay:7days"
+    ],
+    [
+      "job:engineer",
+      "job:unemployed"
+    ]
+  ],
+  "materials": [
+    {
+      "id": "passport",
+      "name": "护照",
+      "category": "identity",
+      "source": "genuine",
+      "credibility": 88,
+      "robustness": 92,
+      "facts": [
+        "identity:liwei",
+        "nationality:CN"
+      ],
+      "flaws": [],
+      "consumable": false
+    },
+    {
+      "id": "invitation",
+      "name": "会议邀请函",
+      "category": "purpose",
+      "source": "genuine",
+      "credibility": 62,
+      "robustness": 70,
+      "facts": [
+        "purpose:conference",
+        "stay:5days"
+      ],
+      "flaws": [
+        "未盖主办方公章",
+        "没有联系人电话"
+      ],
+      "consumable": false
+    },
+    {
+      "id": "bank_statement",
+      "name": "银行流水",
+      "category": "funds",
+      "source": "forged",
+      "credibility": 72,
+      "robustness": 25,
+      "facts": [
+        "funds:self_saved"
+      ],
+      "flaws": [
+        "存款日期集中",
+        "此前余额接近零"
+      ],
+      "consumable": true
+    },
+    {
+      "id": "bank_statement_clean",
+      "name": "重新整理的银行流水",
+      "category": "funds",
+      "source": "modified",
+      "credibility": 80,
+      "robustness": 68,
+      "facts": [
+        "funds:self_saved"
+      ],
+      "flaws": [
+        "数字有轻微涂抹痕迹"
+      ],
+      "consumable": true
+    },
+    {
+      "id": "employment",
+      "name": "在职证明",
+      "category": "ties",
+      "source": "genuine",
+      "credibility": 78,
+      "robustness": 84,
+      "facts": [
+        "job:engineer",
+        "salary:25000"
+      ],
+      "flaws": [],
+      "consumable": false
+    },
+    {
+      "id": "hotel_booking",
+      "name": "酒店预订确认单",
+      "category": "purpose",
+      "source": "modified",
+      "credibility": 66,
+      "robustness": 45,
+      "facts": [
+        "stay:7days"
+      ],
+      "flaws": [
+        "入住日期与邀请函不符"
+      ],
+      "consumable": true
+    }
+  ]
+}

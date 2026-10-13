@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+out/
+
+# 本机独有的全分辨率美术母版（仓库里放的是压缩后的版本）
+/Officer/
+/backgrounds/
+/items/
+/ui/
+# 出图工具用的原始导出（约 11 MB，按需留在本机）
+assets/ui/raw/
+# 演示中间截图
+demo/preview/shot_*.jpg
+# 打包产物与本机 SSH 管道
+dist/
+.git-ssh-known-hosts
+# Ren'Py
+game/saves/
+game/cache/
+*.rpyc
+*.rpymc
+dist/

@@ -1,0 +1,343 @@
+{
+  "_comment": "对话树。goto 是字符串，或 {hold/break/default} 字典（针对 probe 结果分支）。",
+  "start": "greeting",
+  "nodes": {
+    "greeting": {
+      "speaker": "officer",
+      "text": "下一位。材料放在桌上，回答我问题的时候看着我。",
+      "voice": { "emotion": "公事公办·平稳", "pace": "偏快", "note": "前半句不抬头；说到「看着我」才抬眼，重音压在「看」" },
+      "options": [
+        {
+          "id": "hand_over",
+          "text": "把护照和邀请函推过去。",
+          "requires": {
+            "materials": [
+              "passport",
+              "invitation"
+            ]
+          },
+          "effects": {
+            "submit": [
+              "passport",
+              "invitation"
+            ],
+            "flags": [
+              "handed_docs"
+            ]
+          },
+          "goto": "q_purpose"
+        },
+        {
+          "id": "small_talk",
+          "text": "先寒暄两句，夸夸大厅的效率。",
+          "effects": {
+            "suspicion": 8,
+            "flags": [
+              "sucked_up"
+            ]
+          },
+          "tags": [
+            "social"
+          ],
+          "goto": "q_purpose"
+        },
+        {
+          "id": "wait_silent",
+          "text": "不出声，等对方先开口。",
+          "effects": {
+            "suspicion": -3,
+            "flags": [
+              "passive"
+            ]
+          },
+          "tags": [
+            "silent"
+          ],
+          "goto": "q_purpose"
+        }
+      ]
+    },
+    "q_purpose": {
+      "speaker": "officer",
+      "text": "去美国做什么？",
+      "voice": { "emotion": "例行公事", "pace": "中等", "note": "短句，尾音不上扬，像在念第 37 个同样的问题" },
+      "options": [
+        {
+          "id": "state_conference",
+          "text": "参加行业会议，邀请函在您手上。",
+          "requires": {
+            "materials": [
+              "invitation"
+            ]
+          },
+          "effects": {
+            "statements": [
+              "purpose:conference"
+            ],
+            "probe": "invitation",
+            "suspicion": -2,
+            "flags": [
+              "stated_conference"
+            ]
+          },
+          "goto": {
+            "hold": "q_funds",
+            "break": "q_purpose_probe",
+            "default": "q_funds"
+          }
+        },
+        {
+          "id": "state_tourism",
+          "text": "跟团旅游，顺便见见朋友。",
+          "effects": {
+            "statements": [
+              "purpose:tourism"
+            ],
+            "suspicion": 5,
+            "flags": [
+              "stated_tourism"
+            ]
+          },
+          "tags": [
+            "risk"
+          ],
+          "goto": "q_funds"
+        },
+        {
+          "id": "name_drop",
+          "text": "我在硅谷有位投资人朋友，他请我做一次闭门分享。",
+          "effects": {
+            "statements": [
+              "purpose:conference"
+            ],
+            "intrigue": true,
+            "suspicion": 6,
+            "flags": [
+              "name_drop"
+            ]
+          },
+          "tags": [
+            "bluff"
+          ],
+          "goto": "q_funds"
+        }
+      ]
+    },
+    "q_purpose_probe": {
+      "speaker": "officer",
+      "text": "邀请函上没有主办方联系人电话，也没盖章。你怎么解释？",
+      "voice": { "emotion": "轻微怀疑", "pace": "先快后慢", "note": "两个缺失项之间停半拍；「你怎么解释」尾音下压，不是提问是逼问" },
+      "options": [
+        {
+          "id": "cite_host",
+          "text": "联系人是我朋友，电话在我手机里。",
+          "effects": {
+            "suspicion": 8,
+            "flags": [
+              "host_on_phone"
+            ]
+          },
+          "goto": "q_funds"
+        },
+        {
+          "id": "admit_thin",
+          "text": "是线上活动的电子邀请函，主办方不盖实体章。",
+          "effects": {
+            "statements": [
+              "purpose:conference"
+            ],
+            "suspicion": -2,
+            "flags": [
+              "honest_invite"
+            ]
+          },
+          "goto": "q_funds"
+        }
+      ]
+    },
+    "q_funds": {
+      "speaker": "officer",
+      "text": "这次行程的资金由谁承担？",
+      "voice": { "emotion": "平静·观察中", "pace": "偏慢", "note": "问完不催，留 1 秒空白让对方先慌" },
+      "options": [
+        {
+          "id": "cite_bank",
+          "text": "这是我多年的积蓄，流水在这里。",
+          "requires": {
+            "materials": [
+              "bank_statement"
+            ]
+          },
+          "effects": {
+            "submit": [
+              "bank_statement"
+            ],
+            "statements": [
+              "funds:self_saved"
+            ],
+            "probe": "bank_statement",
+            "flags": [
+              "cited_bank"
+            ]
+          },
+          "goto": {
+            "hold": "q_ties",
+            "break": "q_funds_probe",
+            "default": "q_ties"
+          }
+        },
+        {
+          "id": "cite_company",
+          "text": "公司全额报销，这次是出差性质。",
+          "requires": {
+            "materials": [
+              "employment"
+            ]
+          },
+          "effects": {
+            "statements": [
+              "funds:company"
+            ],
+            "suspicion": 4,
+            "flags": [
+              "cited_company"
+            ]
+          },
+          "goto": "q_ties"
+        },
+        {
+          "id": "vague",
+          "text": "钱不是问题，我们先看别的。",
+          "effects": {
+            "suspicion": 10,
+            "flags": [
+              "vague_funds"
+            ]
+          },
+          "goto": "q_ties"
+        }
+      ]
+    },
+    "q_funds_probe": {
+      "speaker": "officer",
+      "text": "流水显示这笔钱是上周分三笔现金存入的，之前余额几乎为零。",
+      "note_scene": "玩家在文件整理室把这张流水重新做一遍",
+      "voice": { "emotion": "明显不耐烦", "pace": "慢·逐字咬清", "note": "数字逐字重读（三笔 / 现金 / 几乎为零）；这是全关最锋利的一句，不要喊" },
+      "puzzle": "patch_statement",
+      "options": [
+        {
+          "id": "resubmit_clean",
+          "text": "（打开文件袋）允许我重新整理一下这份流水。",
+          "requires": {
+            "materials": [
+              "bank_statement_clean"
+            ]
+          },
+          "effects": {
+            "submit": [
+              "bank_statement_clean"
+            ],
+            "statements": [
+              "funds:self_saved"
+            ],
+            "suspicion": -8,
+            "flags": [
+              "patched_bank"
+            ]
+          },
+          "goto": "q_ties"
+        },
+        {
+          "id": "hold_line",
+          "text": "就是这些钱，我没有别的解释。",
+          "effects": {
+            "suspicion": 12,
+            "flags": [
+              "stubborn"
+            ]
+          },
+          "goto": "q_ties"
+        }
+      ]
+    },
+    "q_ties": {
+      "speaker": "officer",
+      "text": "你有什么必须回国的理由？",
+      "voice": { "emotion": "例行·带倦", "pace": "中等", "note": "重音在「必须」——这是唯一一次给你机会的口子" },
+      "options": [
+        {
+          "id": "cite_job",
+          "text": "我在现在的公司做工程师，项目排到明年三月。",
+          "requires": {
+            "materials": [
+              "employment"
+            ]
+          },
+          "effects": {
+            "submit": [
+              "employment"
+            ],
+            "statements": [
+              "job:engineer"
+            ],
+            "suspicion": -4,
+            "flags": [
+              "ties_job"
+            ]
+          },
+          "goto": "verdict"
+        },
+        {
+          "id": "cite_family",
+          "text": "父母年纪大了，需要我照顾。",
+          "effects": {
+            "statements": [
+              "ties:family"
+            ],
+            "suspicion": 2
+          },
+          "goto": "verdict"
+        },
+        {
+          "id": "joke",
+          "text": "我妈做的菜，别的国家没有。",
+          "effects": {
+            "suspicion": -2,
+            "intrigue": true,
+            "flags": [
+              "humor"
+            ]
+          },
+          "tags": [
+            "humor"
+          ],
+          "goto": "verdict"
+        }
+      ]
+    },
+    "verdict": {
+      "speaker": "officer",
+      "terminal": true,
+      "text": "在这里等一下。",
+      "voice": { "emotion": "无情绪·留白", "pace": "慢", "note": "说完起身；不看他，给结局演出让位" },
+      "options": [
+        {
+          "id": "wait_result",
+          "text": "坐直，等结果。",
+          "goto": null
+        },
+        {
+          "id": "push_luck",
+          "text": "补一句：我下周就得动身。",
+          "effects": {
+            "suspicion": 6,
+            "flags": [
+              "pushed"
+            ]
+          },
+          "goto": null
+        }
+      ]
+    }
+  }
+}

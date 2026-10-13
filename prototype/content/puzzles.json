@@ -1,0 +1,187 @@
+{
+  "_comment": "谜题配置。表现层负责手感，引擎只吃 (solved, moves, payload) 三个结果。",
+  "puzzles": [
+    {
+      "id": "patch_statement",
+      "name": "整理流水",
+      "type": "patch_statement",
+      "scene": "room_docs",
+      "move_budget": 8,
+      "flavor": "旧流水、一把剪刀、一支胶棒。每行都能动手脚，动得越多越好看，也越容易被看穿。",
+      "base_credibility": 20,
+      "cap_credibility": 92,
+      "base_robustness": 80,
+      "robustness_per_flaw": -12,
+      "min_robustness": 30,
+      "coupling": [
+        {
+          "slots": [
+            "amount",
+            "balance"
+          ],
+          "rule": "differ",
+          "flaw": "总账对不上"
+        }
+      ],
+      "slots": [
+        {
+          "id": "header",
+          "label": "抬头 · 银行名与地址",
+          "balanced_bold": true,
+          "safe": {
+            "label": "照用原件抬头",
+            "detail": "墨色不均，边角有折痕",
+            "credibility": 12
+          },
+          "bold": {
+            "label": "重印一份整洁抬头",
+            "detail": "干净、居中、像刚打出来的",
+            "credibility": 16,
+            "flaw": "抬头有重印痕迹"
+          }
+        },
+        {
+          "id": "period",
+          "label": "日期区间",
+          "balanced_bold": true,
+          "safe": {
+            "label": "保留原来的两周",
+            "detail": "和邀请函的行程对得上",
+            "credibility": 10
+          },
+          "bold": {
+            "label": "拉长到近三个月",
+            "detail": "让收入看起来更持续",
+            "credibility": 17,
+            "flaw": "日期跨度异常"
+          }
+        },
+        {
+          "id": "amount",
+          "label": "存款金额",
+          "balanced_bold": false,
+          "safe": {
+            "label": "如实保留三笔小额",
+            "detail": "每笔都不起眼",
+            "credibility": 10
+          },
+          "bold": {
+            "label": "合并成一笔大额",
+            "detail": "够体面，但单笔突兀",
+            "credibility": 19,
+            "flaw": "单笔金额突兀"
+          }
+        },
+        {
+          "id": "balance",
+          "label": "账户余额",
+          "balanced_bold": false,
+          "safe": {
+            "label": "如实填写",
+            "detail": "和之前的消费记录自洽",
+            "credibility": 10
+          },
+          "bold": {
+            "label": "抬高余额",
+            "detail": "数字好看了，却和消费记录打架",
+            "credibility": 18,
+            "flaw": "余额与此前消费不符"
+          }
+        },
+        {
+          "id": "paper",
+          "label": "纸张状态",
+          "balanced_bold": false,
+          "safe": {
+            "label": "保留折痕",
+            "detail": "像从包里掏出来的",
+            "credibility": 9
+          },
+          "bold": {
+            "label": "熨平重打",
+            "detail": "太干净了，边缘有裁切痕迹",
+            "credibility": 15,
+            "flaw": "边缘裁切痕迹"
+          }
+        }
+      ],
+      "reward": {
+        "on_solve_within_budget": {
+          "grant": [
+            "bank_statement_clean"
+          ],
+          "suspicion": -5,
+          "apply_payload": true,
+          "flags": [
+            "patched_statement"
+          ]
+        },
+        "on_solve_over_budget": {
+          "grant": [
+            "bank_statement_clean"
+          ],
+          "apply_payload": true,
+          "flags": [
+            "patched_statement",
+            "patched_slow"
+          ]
+        },
+        "on_fail": {
+          "suspicion": 8,
+          "flags": [
+            "patching_failed"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seal_align",
+      "name": "对齐印章",
+      "type": "lights_out",
+      "size": 3,
+      "initial": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "move_budget": 5,
+      "flavor": "把光圈挪到正确的位置，让章压在日期上；点一格会同时影响相邻格。",
+      "reward": {
+        "on_solve_within_budget": {
+          "suspicion": -5,
+          "grant": [
+            "bank_statement_clean"
+          ],
+          "remove_flaws": [
+            "bank_statement:存款日期集中"
+          ],
+          "flags": [
+            "seal_solved"
+          ]
+        },
+        "on_solve_over_budget": {
+          "suspicion": 0,
+          "grant": [
+            "bank_statement_clean"
+          ],
+          "flags": [
+            "seal_solved",
+            "seal_slow"
+          ]
+        },
+        "on_fail": {
+          "suspicion": 12,
+          "flags": [
+            "seal_failed"
+          ]
+        }
+      }
+    }
+  ]
+}
