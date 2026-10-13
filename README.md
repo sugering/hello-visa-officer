@@ -4,6 +4,10 @@
 > Data-driven dialogue + a document-forging minigame, running on a UI-agnostic Python engine.
 > MIT licensed. Zero-install demo (tkinter + Pillow only).
 
+[![tests](https://github.com/sugering/hello-visa-officer/actions/workflows/tests.yml/badge.svg)](https://github.com/sugering/hello-visa-officer/actions/workflows/tests.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+
 用解谜材料支撑话术，在有限回合内糊弄过签证官。这是一个**可玩的逻辑原型**：
 玩法和数值全部跑在引擎里，界面只是渲染层，所以玩一遍就等于跑一遍测试。
 
