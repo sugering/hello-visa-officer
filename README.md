@@ -93,7 +93,7 @@ Windows 装微软雅黑、macOS 自带苹方、Linux 装 `fonts-noto-cjk` 即可
 **为什么素材有两套？** 仓库里是压缩版（约 7 MB）；全分辨率的生成母版留在开发机上，
 被 `.gitignore` 排除了。`tools/pack_assets.py` 与 `tools/pack_ui.py` 是压缩脚本。
 
-**UI 素材上的灰格子是什么？** 图像生成服务用棋盘格表示透明，导出 JPEG 时棋盘格成了真实像素。
+**UI 素材上的灰格子是什么？** 图像生成服务用棋盘格表示透明，Gemini导出 JPEG 时棋盘格成了真实像素。
 `tools/dechecker.py` 用色键 + 连通域把它抠掉。以后拿到同样的 JPEG 直接跑一遍。
 
 ## 授权
@@ -111,10 +111,7 @@ Windows 装微软雅黑、macOS 自带苹方、Linux 装 `fonts-noto-cjk` 即可
 
 | 谁 | 做了什么 |
 |---|---|
-| [@sugering](https://github.com/sugering) | 项目发起；玩法与视觉方向；需求拆解与验收；用 Gemini 产出第一轮美术素材并中转回来 |
+| [@sugering](https://github.com/sugering) | 废物人类，一下午花了几块钱让哦鲸鲸写代码，还顺便花完了GEMINI的5H额度 |
 | **DeepSeek（`deepseek-flash`）** | 引擎与玩法实现、无头状态机、tkinter 表现层、三套共 42 个测试、四份设计文档、素材工具链（棋盘格还原 / UI 打包 / 体积压缩）。经由 DeepSeek Harness 会话完成 |
 | Google Gemini | 第一轮美术出图：签证官 5 张表情、3 张背景、6 张材料道具、UI 底图 |
 
-> 这个仓库是用人机协作做出来的：**人定方向、验收和取舍，AI 出实现**。
-> 刻意的做法是每一步都落成可运行的测试而不是只写进文档 —— 所以数值改了、内容加了，
-> 跑一遍 42 个用例就知道有没有把路走死。
